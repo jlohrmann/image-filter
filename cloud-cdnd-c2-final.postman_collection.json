@@ -1,10 +1,6 @@
 {
 	"info": {
-<<<<<<< HEAD
-		"_postman_id": "346e58c5-3976-4266-936b-5ee06597f84d",
-=======
 		"_postman_id": "9593b1b8-952c-4091-b111-8e9ab9fe9e80",
->>>>>>> main
 		"name": "cloud-cdnd-c2-final",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
