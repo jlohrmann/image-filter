@@ -30,46 +30,46 @@ import { filterImageFromURL, deleteLocalFiles} from './util/util';
   /**************************************************************************** */
 
   //! END @TODO1
-  app.get( "/filteredImage", async ( req, res ) => {
-    
-    const url = require('url')
+  app.get( "/filteredImage", async (req: express.Request, res: express.Response) => {
 
-    const query = url.parse(req.url,true).query;
-    
-    let { image_url } = query;
+      const url = require('url');
 
-    if ( !image_url ) {
-      return res.status(400)
-                .send(`image_url is required`);
-    }
+      const query = url.parse(req.url, true).query;
 
-    var path = require('path')   
-    if (  path.extname(image_url) != '.jpg' ) {
-      return res.status(400)
-                .send(`image file must be .jpg format`);
-    } 
+      let { image_url } = query;
 
-    const filteredPath = await filterImageFromURL(image_url)
-    if ( filteredPath ) {
+      if (!image_url) {
+        return res.status(400)
+          .send(`image_url is required`);
+      }
 
-          res.status(200)
-                    .sendFile(filteredPath);
+      var path = require('path');
+      if (path.extname(image_url) != '.jpg') {
+        return res.status(400)
+          .send(`image file must be .jpg format`);
+      }
 
-          res.on('finish', function() {
-            const filesArray = []
-            filesArray.push(filteredPath)
-            deleteLocalFiles(filesArray);
-          });
+      const filteredPath = await filterImageFromURL(image_url);
+      if (filteredPath) {
 
-          return
-    }
+        res.status(200)
+          .sendFile(filteredPath);
+
+        res.on('finish', function () {
+          const filesArray = [];
+          filesArray.push(filteredPath);
+          deleteLocalFiles(filesArray);
+        });
+
+        return;
+      }
 
 
-    return res.status(422)
-              .send(`there was an issue with loading the image`)
-  } );
+      return res.status(422)
+        .send(`there was an issue with loading the image`);
+    } );
 
-  app.get("/deleteImages", async( req, res) => {
+  app.get("/deleteImages", async( req:express.Request, res:express.Response) => {
     
     const fs = require('fs');   
     const dir = __dirname + '/util/tmp';
